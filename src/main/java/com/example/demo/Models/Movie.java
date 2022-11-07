@@ -2,10 +2,7 @@ package com.example.demo.Models;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @EnableAutoConfiguration
@@ -17,6 +14,9 @@ public class Movie {
     private String name;
     private String author;
 
+    @Transient
+    private Actor[] actors;
+
     protected Movie() {}
 
     public Movie(String name, String author) {
@@ -24,11 +24,17 @@ public class Movie {
         this.author = author;
     }
 
-    @Override
-    public String toString() {
-        return String.format(
-                "Movie[id=%d, name='%s', author='%s']",
-                id, name, author);
+    public Movie(String name, String author, Actor[] actors) {
+        this.name = name;
+        this.author = author;
+        this.actors = actors;
+    }
+
+    public Movie(Long id, String name, String author, Actor[] actors) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.actors = actors;
     }
 
     public Long getId() {
@@ -53,6 +59,14 @@ public class Movie {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Actor[] getActors() {
+        return actors;
+    }
+
+    public void setActors(Actor[] actors) {
+        this.actors = actors;
     }
 
 }
