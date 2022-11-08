@@ -1,8 +1,8 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
-import com.example.demo.Models.Actor;
-import com.example.demo.Models.Movie;
-import com.example.demo.Repositories.MovieRepository;
+import com.example.demo.models.Actor;
+import com.example.demo.models.Movie;
+import com.example.demo.repositories.MovieRepository;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,10 +18,9 @@ class MovieController {
 
     private final MovieRepository movieRepository;
     final private String URL_ACTORS = "http://localhost:8000/movies";
+    private final CircuitBreakerFactory<?, ?> circuitBreakerFactory;
 
-    private final CircuitBreakerFactory circuitBreakerFactory;
-
-    public MovieController(MovieRepository movieRepository, CircuitBreakerFactory circuitBreakerFactory) {
+    public MovieController(MovieRepository movieRepository, CircuitBreakerFactory<?, ?> circuitBreakerFactory) {
         this.movieRepository = movieRepository;
         this.circuitBreakerFactory = circuitBreakerFactory;
     }

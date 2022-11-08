@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.Models.Movie;
-import com.example.demo.Repositories.MovieRepository;
+import com.example.demo.models.Movie;
+import com.example.demo.repositories.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
