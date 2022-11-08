@@ -3,21 +3,27 @@ package com.example.demo.Controller;
 import com.example.demo.Models.Actor;
 import com.example.demo.Models.Movie;
 import com.example.demo.Repositories.MovieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
 class MovieController {
 
     private final MovieRepository movieRepository;
+    final private String URL_ACTORS = "http://localhost:8000/movies";
 
-    public MovieController(MovieRepository movieRepository) {
+    private final CircuitBreakerFactory circuitBreakerFactory;
+
+    public MovieController(MovieRepository movieRepository, CircuitBreakerFactory circuitBreakerFactory) {
         this.movieRepository = movieRepository;
+        this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
     @GetMapping("/movies")
@@ -32,8 +38,13 @@ class MovieController {
             return ResponseEntity.notFound().build();
 
         RestTemplate restTemplate = new RestTemplate();
-        String actorResourceUrl = "http://localhost:8000/movies";
-        Actor[] actors = restTemplate.getForObject(actorResourceUrl + "/" + id + "/actors", Actor[].class);
+        List<Actor> actors = circuitBreakerFactory.create("findAMovie").run(
+                () -> List.of(
+                        Objects.requireNonNull(
+                                restTemplate.getForObject(URL_ACTORS + "/" + id + "/actors", Actor[].class)
+                        )
+                ), throwable -> List.of()
+        );
 
         return ResponseEntity.ok().body(new Movie(movie.get().getId(), movie.get().getName(), movie.get().getAuthor(), actors));
     }
