@@ -17,7 +17,7 @@ import java.util.Optional;
 class MovieController {
 
     private final MovieRepository movieRepository;
-    final private String URL_ACTORS = "http://localhost:8000/movies";
+    final private String URL_ACTORS = "http://fastapi_lab2:8000/movies";
     private final CircuitBreakerFactory<?, ?> circuitBreakerFactory;
 
     public MovieController(MovieRepository movieRepository, CircuitBreakerFactory<?, ?> circuitBreakerFactory) {
