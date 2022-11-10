@@ -3,7 +3,6 @@ package com.example.demo.models;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @EnableAutoConfiguration
@@ -15,8 +14,6 @@ public class Movie {
     private String name;
     private String author;
 
-    @Transient
-    private List<Actor> actors;
 
     protected Movie() {}
 
@@ -25,12 +22,6 @@ public class Movie {
         this.author = author;
     }
 
-    public Movie(Long id, String name, String author, List<Actor> actors) {
-        this.id = id;
-        this.name = name;
-        this.author = author;
-        this.actors = actors;
-    }
 
     public Long getId() {
         return id;
@@ -54,14 +45,6 @@ public class Movie {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public List<Actor> getActors() {
-        return actors;
-    }
-
-    public void setActors(List<Actor> actors) {
-        this.actors = actors;
     }
 
 }
