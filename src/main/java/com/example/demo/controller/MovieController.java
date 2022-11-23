@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 class MovieController {
 
     private final MovieRepository movieRepository;
